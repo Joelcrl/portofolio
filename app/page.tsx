@@ -1,3 +1,4 @@
+import Certifications from "@/components/sections/certifications";
 import Hero from "@/components/sections/hero";
 import Organization from "@/components/sections/organization";
 import Projects from "@/components/sections/projects";
@@ -12,7 +13,8 @@ export default function Home() {
       <Projects />
       {/* TODO: Publications (prompts/08) goes here, before Organization. */}
       <Organization />
-      {/* TODO: Certifications, Contact. */}
+      <Certifications />
+      {/* TODO: Contact (prompts/09). */}
     </main>
   );
 }

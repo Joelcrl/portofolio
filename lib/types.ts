@@ -108,6 +108,16 @@ export type Certification = {
   verifyUrl: string | null;
 };
 
+export type CertificationsSectionContent = {
+  title: string;
+  /** Label on the verification link. */
+  verifyLabel: string;
+  /** Alt text for a certificate image. */
+  imageAlt: (title: string) => string;
+  previousLabel: string;
+  nextLabel: string;
+};
+
 export type Education = {
   university: string;
   degree: string;

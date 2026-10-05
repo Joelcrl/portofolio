@@ -1,4 +1,7 @@
-import type { Certification } from "@/lib/types";
+import type {
+  Certification,
+  CertificationsSectionContent,
+} from "@/lib/types";
 
 // TODO: Joel, add your certifications. The section stays hidden while empty.
 export const certifications: Certification[] = [
@@ -10,3 +13,11 @@ export const certifications: Certification[] = [
   //   verifyUrl: "https://...",
   // },
 ];
+
+export const certificationsSection: CertificationsSectionContent = {
+  title: "Certifications",
+  verifyLabel: "Verify",
+  imageAlt: (title) => `${title} certificate`,
+  previousLabel: "Previous certificate",
+  nextLabel: "Next certificate",
+};
