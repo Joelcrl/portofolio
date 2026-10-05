@@ -1,3 +1,4 @@
+import About from "@/components/sections/about";
 import Certifications from "@/components/sections/certifications";
 import Hero from "@/components/sections/hero";
 import Organization from "@/components/sections/organization";
@@ -9,7 +10,8 @@ export default function Home() {
   return (
     <main className="flex flex-1 flex-col">
       <Hero />
-      {/* TODO: About & Education (prompts/06) and Skills (prompts/07) go here, before Projects. */}
+      <About />
+      {/* TODO: Skills (prompts/07) goes here, before Projects. */}
       <Projects />
       {/* TODO: Publications (prompts/08) goes here, before Organization. */}
       <Organization />

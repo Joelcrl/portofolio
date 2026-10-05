@@ -1,4 +1,4 @@
-import type { SiteContent } from "@/lib/types";
+import type { AboutSectionContent, SiteContent } from "@/lib/types";
 
 export const site: SiteContent = {
   name: "Joel Chriscendo",
@@ -37,4 +37,13 @@ export const site: SiteContent = {
 
   longBio:
     "I'm Joel, a Computer Science student at BINUS University specializing in Data Science, graduating in 2028. I enjoy the full path from raw data to a working product: scraping and cleaning data, building and explaining models, and shipping them as tools people can actually use. My work spans explainable churn prediction, a real-time streaming pipeline with Kafka and Spark, and research on dynamic ensemble selection accepted at ICTIM 2026. Outside coursework, I serve as Vice Manager of the Academic Event commission at HIMTI. I'm currently looking for internship opportunities in data science, machine learning, or data engineering.",
+};
+
+export const aboutSection: AboutSectionContent = {
+  eyebrow: "About",
+  heading: "Hi, I'm Joel.",
+  graduationLabel: "Expected graduation",
+  gpaLabel: "GPA",
+  relevantLabel: "Relevant coursework",
+  foundationsLabel: "Foundations",
 };

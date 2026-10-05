@@ -20,6 +20,15 @@ export type HeroContent = {
   toolsLabel: string;
 };
 
+export type AboutSectionContent = {
+  eyebrow: string;
+  heading: string;
+  graduationLabel: string;
+  gpaLabel: string;
+  relevantLabel: string;
+  foundationsLabel: string;
+};
+
 export type SiteContent = {
   name: string;
   fullName: string;
