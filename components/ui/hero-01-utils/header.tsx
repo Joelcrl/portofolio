@@ -1,6 +1,15 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+  type MouseEvent,
+} from "react";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 import { MotionConfig, motion } from "motion/react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
@@ -33,6 +42,9 @@ type HeaderProps = {
 
 // The nav item with this href is shown as the CTA button instead of a link.
 const CTA_HREF = "#contact";
+// On /projects the nav item for this section is highlighted instead.
+const PROJECTS_HREF = "#projects";
+const PROJECTS_PATH = "/projects";
 const HOME_HREF = "#home";
 
 /** Href of the section crossing the middle of the viewport, or null. */
@@ -78,12 +90,30 @@ function scrollToHash(href: string) {
   history.pushState(null, "", href);
 }
 
+/**
+ * Plain anchor on Home, where the targets are on the same page. Elsewhere a
+ * client-side Link to the Home route, so the shader and page state survive.
+ */
+function NavAnchor({
+  href,
+  onHome,
+  ...props
+}: ComponentProps<"a"> & { href: string; onHome: boolean }) {
+  if (onHome) return <a href={href} {...props} />;
+  return <Link href={href} {...props} />;
+}
+
 const CtaButton = ({
   item,
+  href,
+  onHome,
   className,
   onClick,
 }: {
   item: NavigationSection;
+  /** Resolved href for the current route. */
+  href: string;
+  onHome: boolean;
   className?: string;
   onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
 }) => (
@@ -94,12 +124,12 @@ const CtaButton = ({
       className,
     )}
   >
-    <a href={item.href} onClick={onClick}>
+    <NavAnchor href={href} onHome={onHome} onClick={onClick}>
       <span className="relative z-10">{item.title}</span>
       <span className="absolute right-1 flex size-8 items-center justify-center rounded-full bg-background text-foreground transition-all duration-300 group-hover:right-[calc(100%-36px)] group-hover:rotate-45 motion-reduce:transition-none">
         <ArrowUpRight size={16} />
       </span>
-    </a>
+    </NavAnchor>
   </Button>
 );
 
@@ -109,9 +139,24 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
   // Href to scroll to once the mobile menu has finished closing.
   const pendingHref = useRef<string | null>(null);
 
+  const pathname = usePathname();
+  const router = useRouter();
+  const onHome = pathname === "/";
+  // In-page anchors become routes to Home when the header is on another page.
+  const resolve = (href: string) =>
+    onHome || !href.startsWith("#") ? href : `/${href}`;
+
   const cta = navigationData.find((item) => item.href === CTA_HREF) ?? null;
   const links = navigationData.filter((item) => item !== cta);
-  const active = useActiveSection(navigationData.map((item) => item.href));
+  // Sections only exist on Home; elsewhere highlight the matching page.
+  const sectionActive = useActiveSection(
+    onHome ? navigationData.map((item) => item.href) : [],
+  );
+  const active = onHome
+    ? sectionActive
+    : pathname.startsWith(PROJECTS_PATH)
+      ? PROJECTS_HREF
+      : null;
 
   const handleScroll = useCallback(() => {
     setScrolled(window.scrollY >= 50);
@@ -133,7 +178,8 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
     };
   }, [handleScroll, handleResize]);
 
-  // The Sheet locks page scroll while open, so close it first and scroll after.
+  // The Sheet locks page scroll while open, so close it first, then scroll (on
+  // Home) or navigate (elsewhere).
   const handleMobileNav = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     pendingHref.current = event.currentTarget.getAttribute("href");
@@ -145,7 +191,10 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
     if (!href) return;
     event.preventDefault();
     pendingHref.current = null;
-    requestAnimationFrame(() => scrollToHash(href));
+    // Off Home this is a route change to Home, with the anchor in the URL.
+    requestAnimationFrame(() =>
+      onHome ? scrollToHash(href) : router.push(href),
+    );
   };
 
   return (
@@ -167,12 +216,13 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
               : "border-transparent bg-transparent",
           )}
         >
-          <a
-            href={HOME_HREF}
+          <NavAnchor
+            href={onHome ? HOME_HREF : "/"}
+            onHome={onHome}
             className="rounded-md text-base font-semibold tracking-tight text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
           >
             {brandName}
-          </a>
+          </NavAnchor>
 
           {/* Desktop navigation */}
           <NavigationMenu className="rounded-full border border-border bg-background/40 p-0.5 backdrop-blur-md max-lg:hidden">
@@ -182,14 +232,21 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
                 return (
                   <NavigationMenuItem key={item.href}>
                     <NavigationMenuLink
-                      href={item.href}
-                      aria-current={isActive ? "location" : undefined}
+                      asChild
                       className={cn(
                         "rounded-full px-4 py-2 text-sm font-medium tracking-normal text-muted-foreground transition hover:bg-muted hover:text-foreground",
                         isActive && "bg-muted text-foreground",
                       )}
                     >
-                      {item.title}
+                      <NavAnchor
+                        href={resolve(item.href)}
+                        onHome={onHome}
+                        aria-current={
+                          isActive ? (onHome ? "location" : "page") : undefined
+                        }
+                      >
+                        {item.title}
+                      </NavAnchor>
                     </NavigationMenuLink>
                   </NavigationMenuItem>
                 );
@@ -198,7 +255,14 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
           </NavigationMenu>
 
           <div className="flex gap-4">
-            {cta && <CtaButton item={cta} className="hidden lg:flex" />}
+            {cta && (
+              <CtaButton
+                item={cta}
+                href={resolve(cta.href)}
+                onHome={onHome}
+                className="hidden lg:flex"
+              />
+            )}
 
             {/* Mobile navigation */}
             <div className="lg:hidden">
@@ -236,9 +300,7 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
                           return (
                             <NavigationMenuItem key={item.href}>
                               <NavigationMenuLink
-                                href={item.href}
-                                onClick={handleMobileNav}
-                                aria-current={isActive ? "location" : undefined}
+                                asChild
                                 className={cn(
                                   "group/nav flex items-center p-0 text-2xl font-semibold tracking-tight transition-all hover:bg-transparent focus:bg-transparent motion-reduce:transition-none",
                                   isActive
@@ -246,16 +308,29 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
                                     : "text-muted-foreground hover:translate-x-2 hover:text-foreground",
                                 )}
                               >
-                                <span
-                                  aria-hidden
-                                  className={cn(
-                                    "h-0.5 overflow-hidden bg-accent transition-all duration-300",
+                                <NavAnchor
+                                  href={resolve(item.href)}
+                                  onHome={onHome}
+                                  onClick={handleMobileNav}
+                                  aria-current={
                                     isActive
-                                      ? "mr-2 w-4 opacity-100"
-                                      : "w-0 opacity-0 group-hover/nav:mr-2 group-hover/nav:w-4 group-hover/nav:opacity-100",
-                                  )}
-                                />
-                                {item.title}
+                                      ? onHome
+                                        ? "location"
+                                        : "page"
+                                      : undefined
+                                  }
+                                >
+                                  <span
+                                    aria-hidden
+                                    className={cn(
+                                      "h-0.5 overflow-hidden bg-accent transition-all duration-300",
+                                      isActive
+                                        ? "mr-2 w-4 opacity-100"
+                                        : "w-0 opacity-0 group-hover/nav:mr-2 group-hover/nav:w-4 group-hover/nav:opacity-100",
+                                    )}
+                                  />
+                                  {item.title}
+                                </NavAnchor>
                               </NavigationMenuLink>
                             </NavigationMenuItem>
                           );
@@ -263,7 +338,14 @@ const Header = ({ navigationData, brandName, className }: HeaderProps) => {
                       </NavigationMenuList>
                     </NavigationMenu>
 
-                    {cta && <CtaButton item={cta} onClick={handleMobileNav} />}
+                    {cta && (
+                      <CtaButton
+                        item={cta}
+                        href={resolve(cta.href)}
+                        onHome={onHome}
+                        onClick={handleMobileNav}
+                      />
+                    )}
                   </div>
                 </SheetContent>
               </Sheet>

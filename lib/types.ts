@@ -94,6 +94,19 @@ export type ProjectsSectionContent = {
   viewAll: { label: string; href: string };
 };
 
+export type ProjectsPageContent = {
+  backLabel: string;
+  heading: string;
+  intro: string;
+  /** Meta description for search results. */
+  description: string;
+  filterLabel: string;
+  /** Label of the pill that clears the filter. */
+  allLabel: string;
+  emptyText: string;
+  showAllLabel: string;
+};
+
 export type OrganizationRole = {
   year: string;
   /** null when the month is unknown */

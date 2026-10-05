@@ -1,4 +1,8 @@
-import type { Project, ProjectsSectionContent } from "@/lib/types";
+import type {
+  Project,
+  ProjectsPageContent,
+  ProjectsSectionContent,
+} from "@/lib/types";
 
 /**
  * All projects. `core: true` projects appear on Home, in this order.
@@ -124,4 +128,16 @@ export const projectsSection: ProjectsSectionContent = {
   title: "Selected Projects",
   action: "View project",
   viewAll: { label: "View all projects", href: "/projects" },
+};
+
+export const projectsPage: ProjectsPageContent = {
+  backLabel: "Back to home",
+  heading: "All Projects",
+  intro: "Everything I have built, from ML models to data pipelines and apps.",
+  description:
+    "Machine learning, deep learning, data engineering and app projects by Joel Chriscendo.",
+  filterLabel: "Filter by category",
+  allLabel: "All",
+  emptyText: "No projects in this category yet.",
+  showAllLabel: "Show all projects",
 };

@@ -1,6 +1,4 @@
-import Header, {
-  type NavigationSection,
-} from "@/components/ui/hero-01-utils/header";
+import SiteHeader from "@/components/shared/site-header";
 import HeroSection from "@/components/ui/hero-01-utils/hero";
 import BrandSlider, {
   type BrandList,
@@ -19,16 +17,11 @@ const toBrandList = (items: TechLogo[]): BrandList[] =>
   });
 
 export default function Hero() {
-  const navigationData: NavigationSection[] = site.nav.map((item) => ({
-    title: item.title,
-    href: item.href,
-  }));
-
   const { hero } = site;
 
   return (
     <div id="home" className="relative">
-      <Header navigationData={navigationData} brandName={site.name} />
+      <SiteHeader />
       <div>
         <HeroSection
           badge={hero.badge}
