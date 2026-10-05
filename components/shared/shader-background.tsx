@@ -467,7 +467,7 @@ export default function ShaderBackground({
       ref={canvasRef}
       aria-hidden="true"
       className={className}
-      style={{ backgroundColor: "#10002B" }}
+      style={{ backgroundColor: "var(--background)" }}
     />
   );
 }
