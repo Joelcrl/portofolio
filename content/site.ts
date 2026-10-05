@@ -1,4 +1,10 @@
-import type { AboutSectionContent, SiteContent } from "@/lib/types";
+import type {
+  AboutSectionContent,
+  ContactSectionContent,
+  FooterContent,
+  SiteContent,
+  SocialLinks,
+} from "@/lib/types";
 
 export const site: SiteContent = {
   name: "Joel Chriscendo",
@@ -46,4 +52,28 @@ export const aboutSection: AboutSectionContent = {
   gpaLabel: "GPA",
   relevantLabel: "Relevant coursework",
   foundationsLabel: "Foundations",
+};
+
+/** Visible name and accessible label for each profile link. */
+export const socialLabels: Record<keyof SocialLinks, string> = {
+  email: "Email",
+  github: "GitHub",
+  linkedin: "LinkedIn",
+  scholar: "Google Scholar",
+};
+
+export const contactSection: ContactSectionContent = {
+  eyebrow: "Contact",
+  heading: "Let's work together",
+  text: "I'm looking for internship opportunities in data science, machine learning and data engineering. My inbox is open.",
+  emailLabel: "Email me",
+  cvLabel: "Download CV",
+};
+
+export const footerSection: FooterContent = {
+  navigateLabel: "Navigate",
+  connectLabel: "Connect",
+  allProjects: { label: "All Projects", href: "/projects" },
+  builtWith: "Built with Next.js",
+  copyright: (year, name) => `© ${year} ${name}`,
 };

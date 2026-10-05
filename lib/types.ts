@@ -29,6 +29,22 @@ export type AboutSectionContent = {
   foundationsLabel: string;
 };
 
+export type ContactSectionContent = {
+  eyebrow: string;
+  heading: string;
+  text: string;
+  emailLabel: string;
+  cvLabel: string;
+};
+
+export type FooterContent = {
+  navigateLabel: string;
+  connectLabel: string;
+  allProjects: { label: string; href: string };
+  builtWith: string;
+  copyright: (year: number, name: string) => string;
+};
+
 export type SiteContent = {
   name: string;
   fullName: string;

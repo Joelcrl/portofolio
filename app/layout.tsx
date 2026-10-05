@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Footer from "@/components/sections/footer";
 import ShaderBackground from "@/components/shared/shader-background";
 import "./globals.css";
 
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <ShaderBackground />
         {children}
+        <Footer />
       </body>
     </html>
   );

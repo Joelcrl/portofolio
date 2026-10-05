@@ -8,6 +8,8 @@ type SectionHeadingProps = {
   as?: "h2" | "h3";
   /** id for the title, for aria-labelledby on the section. */
   id?: string;
+  /** Centers the eyebrow and heading. Default left. */
+  align?: "left" | "center";
   className?: string;
 };
 
@@ -17,13 +19,21 @@ export function SectionHeading({
   title,
   as: Heading = "h2",
   id,
+  align = "left",
   className,
 }: SectionHeadingProps) {
   return (
-    <div className={cn("space-y-3", className)}>
+    <div
+      className={cn("space-y-3", align === "center" && "text-center", className)}
+    >
       {/* Foreground text with an accent bar: accent-colored small text falls
           below AA contrast over the brightest teal of the shader. */}
-      <p className="flex items-center gap-3 font-mono text-xs tracking-widest text-foreground uppercase">
+      <p
+        className={cn(
+          "flex items-center gap-3 font-mono text-xs tracking-widest text-foreground uppercase",
+          align === "center" && "justify-center",
+        )}
+      >
         <span aria-hidden className="h-px w-6 bg-accent" />
         {eyebrow}
       </p>

@@ -1,5 +1,6 @@
 import About from "@/components/sections/about";
 import Certifications from "@/components/sections/certifications";
+import Contact from "@/components/sections/contact";
 import Hero from "@/components/sections/hero";
 import Organization from "@/components/sections/organization";
 import Projects from "@/components/sections/projects";
@@ -18,7 +19,7 @@ export default function Home() {
       <Publications />
       <Organization />
       <Certifications />
-      {/* TODO: Contact (prompts/09). */}
+      <Contact />
     </main>
   );
 }
