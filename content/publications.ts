@@ -1,4 +1,4 @@
-import type { Publication } from "@/lib/types";
+import type { Publication, PublicationsSectionContent } from "@/lib/types";
 
 export const publications: Publication[] = [
   {
@@ -16,3 +16,12 @@ export const publications: Publication[] = [
     certificateImage: null, // TODO: Joel, e.g. "/images/publications/ictim-2026-certificate.jpg"
   },
 ];
+
+export const publicationsSection: PublicationsSectionContent = {
+  eyebrow: "Research",
+  heading: "Publications",
+  readPaperLabel: "Read paper",
+  viewCertificateLabel: (title) => `View conference certificate for ${title}`,
+  certificateTitle: "Conference certificate",
+  certificateAlt: (title) => `Conference certificate for ${title}`,
+};

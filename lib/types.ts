@@ -167,6 +167,18 @@ export type Publication = {
   certificateImage: string | null;
 };
 
+export type PublicationsSectionContent = {
+  eyebrow: string;
+  heading: string;
+  readPaperLabel: string;
+  /** Accessible name for the certificate thumbnail button. */
+  viewCertificateLabel: (title: string) => string;
+  /** Visible title of the certificate dialog. */
+  certificateTitle: string;
+  /** Alt text for the certificate image. */
+  certificateAlt: (title: string) => string;
+};
+
 export type TechLogo = {
   name: string;
   /** Simple Icons slug (https://simpleicons.org), or null when no logo exists */

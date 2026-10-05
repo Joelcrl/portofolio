@@ -3,6 +3,7 @@ import Certifications from "@/components/sections/certifications";
 import Hero from "@/components/sections/hero";
 import Organization from "@/components/sections/organization";
 import Projects from "@/components/sections/projects";
+import Publications from "@/components/sections/publications";
 import Skills from "@/components/sections/skills";
 
 // Sections are composed here in the order listed in CLAUDE.md.
@@ -14,7 +15,7 @@ export default function Home() {
       <About />
       <Skills />
       <Projects />
-      {/* TODO: Publications (prompts/08) goes here, before Organization. */}
+      <Publications />
       <Organization />
       <Certifications />
       {/* TODO: Contact (prompts/09). */}
