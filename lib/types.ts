@@ -143,6 +143,15 @@ export type SkillGroup = {
   skills: string[];
   /** Slugs from content/projects.ts where these skills were used. */
   usedIn: string[];
+  /** Gets the larger tile in the Skills grid. */
+  featured?: boolean;
+};
+
+export type SkillsSectionContent = {
+  eyebrow: string;
+  heading: string;
+  /** Label before the project links on each card. */
+  usedInLabel: string;
 };
 
 export type Publication = {

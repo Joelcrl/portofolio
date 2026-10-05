@@ -1,4 +1,4 @@
-import type { SkillGroup } from "@/lib/types";
+import type { SkillGroup, SkillsSectionContent } from "@/lib/types";
 
 /**
  * Skills grouped by area, each tied to the projects that prove it.
@@ -21,6 +21,7 @@ export const skillGroups: SkillGroup[] = [
       "SHAP",
     ],
     usedIn: ["churn-prediction", "laptop-price-prediction"],
+    featured: true, // main focus, gets the larger tile
   },
   {
     title: "Deep Learning",
@@ -42,3 +43,9 @@ export const skillGroups: SkillGroup[] = [
     usedIn: ["churn-prediction", "laptop-price-prediction", "skillswap"],
   },
 ];
+
+export const skillsSection: SkillsSectionContent = {
+  eyebrow: "Skills",
+  heading: "What I work with",
+  usedInLabel: "Used in",
+};
