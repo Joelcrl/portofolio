@@ -1,5 +1,6 @@
 import type {
   Project,
+  ProjectDetailContent,
   ProjectsPageContent,
   ProjectsSectionContent,
 } from "@/lib/types";
@@ -140,4 +141,18 @@ export const projectsPage: ProjectsPageContent = {
   allLabel: "All",
   emptyText: "No projects in this category yet.",
   showAllLabel: "Show all projects",
+};
+
+export const projectDetail: ProjectDetailContent = {
+  backLabel: "Back to projects",
+  demoLabel: "Live demo",
+  repoLabel: "Source code",
+  overviewHeading: "Overview",
+  stackHeading: "Tech stack",
+  teamHeading: "Team",
+  teamSize: (size) => `Team of ${size}`,
+  roleLabel: "My role",
+  moreLabel: "More projects",
+  previousLabel: "Previous project",
+  nextLabel: "Next project",
 };

@@ -37,6 +37,14 @@ export type ContactSectionContent = {
   cvLabel: string;
 };
 
+export type NotFoundContent = {
+  code: string;
+  heading: string;
+  text: string;
+  homeLabel: string;
+  projectsLabel: string;
+};
+
 export type FooterContent = {
   navigateLabel: string;
   connectLabel: string;
@@ -105,6 +113,21 @@ export type ProjectsPageContent = {
   allLabel: string;
   emptyText: string;
   showAllLabel: string;
+};
+
+export type ProjectDetailContent = {
+  backLabel: string;
+  demoLabel: string;
+  repoLabel: string;
+  overviewHeading: string;
+  stackHeading: string;
+  teamHeading: string;
+  teamSize: (size: number) => string;
+  roleLabel: string;
+  /** Accessible name of the previous and next project links. */
+  moreLabel: string;
+  previousLabel: string;
+  nextLabel: string;
 };
 
 export type OrganizationRole = {

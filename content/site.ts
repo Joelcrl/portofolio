@@ -2,6 +2,7 @@ import type {
   AboutSectionContent,
   ContactSectionContent,
   FooterContent,
+  NotFoundContent,
   SiteContent,
   SocialLinks,
 } from "@/lib/types";
@@ -76,4 +77,12 @@ export const footerSection: FooterContent = {
   allProjects: { label: "All Projects", href: "/projects" },
   builtWith: "Built with Next.js",
   copyright: (year, name) => `© ${year} ${name}`,
+};
+
+export const notFoundSection: NotFoundContent = {
+  code: "404",
+  heading: "Page not found",
+  text: "The page you are looking for does not exist or has moved.",
+  homeLabel: "Back to home",
+  projectsLabel: "View all projects",
 };

@@ -21,6 +21,8 @@ type ProjectCoverProps = {
   variant?: number;
   /** Hide from assistive tech when the title is already announced nearby. */
   decorative?: boolean;
+  /** Load the image eagerly, for a cover that is the first thing on the page. */
+  priority?: boolean;
   className?: string;
 };
 
@@ -31,6 +33,7 @@ export function ProjectCover({
   sizes,
   variant = 0,
   decorative = false,
+  priority = false,
   className,
 }: ProjectCoverProps) {
   if (image) {
@@ -41,6 +44,7 @@ export function ProjectCover({
           alt={decorative ? "" : title}
           fill
           sizes={sizes}
+          priority={priority}
           draggable={false}
           className="object-cover"
         />
