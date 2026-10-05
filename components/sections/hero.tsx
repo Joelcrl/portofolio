@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <div id="home" className="relative">
       <Header navigationData={navigationData} brandName={site.name} />
-      <main>
+      <div>
         <HeroSection
           badge={hero.badge}
           headline={hero.headline}
@@ -41,6 +41,7 @@ export default function Hero() {
               : null
           }
           profileImage={site.profileImage}
+          profileAlt={site.name}
         />
         <div className="flex flex-col gap-6">
           <BrandSlider
@@ -53,7 +54,7 @@ export default function Hero() {
             reverse
           />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

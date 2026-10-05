@@ -94,5 +94,49 @@
   }
   html {
     @apply font-sans;
+    /* Keep anchor targets clear of the fixed header. */
+    scroll-padding-top: 6rem;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Marquee (components/ui/marquee.tsx) */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap)));
+  }
+}
+
+/* Unlayered on purpose: these must override Tailwind utilities (flex, shrink-0). */
+.marquee-track {
+  animation: marquee var(--duration) linear infinite;
+}
+.marquee-reverse {
+  animation-direction: reverse;
+}
+.marquee-pause:hover .marquee-track {
+  animation-play-state: paused;
+}
+/* Reduced motion: no scrolling, show one copy of the list wrapped. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee {
+    justify-content: center;
+  }
+  .marquee-track {
+    animation: none;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 0.75rem;
+  }
+  .marquee-track[aria-hidden="true"] {
+    display: none;
   }
 }
