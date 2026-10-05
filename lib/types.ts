@@ -61,6 +61,14 @@ export type Project = {
   details?: { heading: string; body: string }[];
 };
 
+export type ProjectsSectionContent = {
+  /** Section heading, also the label in the middle of the wheel. */
+  title: string;
+  /** Label on each project's link. */
+  action: string;
+  viewAll: { label: string; href: string };
+};
+
 export type OrganizationRole = {
   year: string;
   /** null when the month is unknown */

@@ -1,4 +1,4 @@
-import type { Project } from "@/lib/types";
+import type { Project, ProjectsSectionContent } from "@/lib/types";
 
 /**
  * All projects. `core: true` projects appear on Home, in this order.
@@ -119,3 +119,9 @@ export const projects: Project[] = [
 ];
 
 export const coreProjects = projects.filter((p) => p.core);
+
+export const projectsSection: ProjectsSectionContent = {
+  title: "Selected Projects",
+  action: "View project",
+  viewAll: { label: "View all projects", href: "/projects" },
+};

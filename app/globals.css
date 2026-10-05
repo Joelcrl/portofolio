@@ -4,6 +4,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Desktop with a mouse or trackpad: where the Works Wheel renders.
+   Keep in sync with WHEEL_QUERY in components/sections/projects.tsx. */
+@custom-variant wheel {
+  @media (min-width: 1024px) and (pointer: fine) {
+    @slot;
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
