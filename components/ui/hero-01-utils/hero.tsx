@@ -38,7 +38,7 @@ function HeroSection({
 }: HeroSectionProps) {
   return (
     <MotionConfig reducedMotion="user">
-      <section className="relative isolate px-4 pt-32 pb-10 md:pt-40 md:pb-14">
+      <section className="relative isolate overflow-x-clip px-4 pt-32 pb-10 md:pt-40 md:pb-14">
         {/* Soft scrim behind the copy keeps text readable over bright shader areas. */}
         <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center before:absolute before:-inset-x-8 before:-inset-y-10 before:-z-10 before:rounded-full before:bg-background/45 before:blur-3xl">
           {profileImage && (

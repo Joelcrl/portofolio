@@ -1,4 +1,4 @@
-import type { Organization } from "@/lib/types";
+import type { Organization, OrganizationSectionContent } from "@/lib/types";
 
 export const organization: Organization = {
   name: "HIMTI BINUS University",
@@ -30,4 +30,10 @@ export const organization: Organization = {
     //   image: "/images/organization/event-name.jpg",
     // },
   ],
+};
+
+export const organizationSection: OrganizationSectionContent = {
+  title: "Organization",
+  committeesTitle: "Committee highlights",
+  periodLabel: (from, to) => `${from} to ${to}`,
 };

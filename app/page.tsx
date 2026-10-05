@@ -1,4 +1,5 @@
 import Hero from "@/components/sections/hero";
+import Organization from "@/components/sections/organization";
 import Projects from "@/components/sections/projects";
 
 // Sections are composed here in the order listed in CLAUDE.md.
@@ -9,7 +10,9 @@ export default function Home() {
       <Hero />
       {/* TODO: About & Education (prompts/06) and Skills (prompts/07) go here, before Projects. */}
       <Projects />
-      {/* TODO: Publications, Organization, Certifications, Contact. */}
+      {/* TODO: Publications (prompts/08) goes here, before Organization. */}
+      <Organization />
+      {/* TODO: Certifications, Contact. */}
     </main>
   );
 }

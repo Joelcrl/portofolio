@@ -92,6 +92,14 @@ export type Organization = {
   committees: Committee[];
 };
 
+export type OrganizationSectionContent = {
+  title: string;
+  /** Heading above the committee cards. */
+  committeesTitle: string;
+  /** Joins the first and last year, e.g. "2025 to 2026". */
+  periodLabel: (from: string, to: string) => string;
+};
+
 export type Certification = {
   title: string;
   issuer: string;
