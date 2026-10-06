@@ -93,12 +93,15 @@ export default function Certifications() {
       aria-labelledby="certifications-heading"
       className="mx-auto w-full max-w-6xl px-4 py-16"
     >
-      <h2
-        id="certifications-heading"
-        className="mb-8 text-3xl font-semibold tracking-tight md:text-4xl"
-      >
-        {title}
-      </h2>
+      {/* Text sits on a card surface everywhere except the Hero. */}
+      <div className="mb-6 w-fit rounded-xl border border-border bg-card px-6 py-5 backdrop-blur-md lg:mb-8">
+        <h2
+          id="certifications-heading"
+          className="text-3xl font-semibold tracking-tight md:text-4xl"
+        >
+          {title}
+        </h2>
+      </div>
 
       {certifications.length >= CAROUSEL_MIN ? (
         // Text under the strip sits on a card surface, per the readability rule.

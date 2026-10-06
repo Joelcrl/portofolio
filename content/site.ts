@@ -1,3 +1,4 @@
+import { certifications } from "@/content/certifications";
 import { experience } from "@/content/organization";
 import type {
   AboutSectionContent,
@@ -30,6 +31,9 @@ export const site: SiteContent = {
     { title: "Publications", href: "#publications" },
     ...(experience.length > 0
       ? [{ title: "Experience & Organization", href: "#experience" }]
+      : []),
+    ...(certifications.length > 0
+      ? [{ title: "Certifications", href: "#certifications" }]
       : []),
     { title: "Contact", href: "#contact" },
   ],
