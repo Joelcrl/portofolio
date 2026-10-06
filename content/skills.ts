@@ -2,7 +2,7 @@ import type { SkillGroup, SkillsSectionContent } from "@/lib/types";
 
 /**
  * Skills grouped by area, each tied to the projects that prove it.
- * Every skill here appears in at least one public repo.
+ * Groups with an empty usedIn show no "Used in" row.
  */
 export const skillGroups: SkillGroup[] = [
   {
@@ -41,6 +41,12 @@ export const skillGroups: SkillGroup[] = [
     description: "Turning models and ideas into tools people can use.",
     skills: ["Streamlit", "Plotly", "Flutter", "Firebase", "Git"],
     usedIn: ["churn-prediction", "laptop-price-prediction", "skillswap"],
+  },
+  {
+    title: "Design & Productivity",
+    description: "Tools for design and visual work.", // TODO: Joel, confirm or reword
+    skills: ["Figma", "Canva"],
+    usedIn: [], // TODO: Joel, add project slugs if any project used these
   },
 ];
 

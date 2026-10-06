@@ -13,9 +13,11 @@ const CARD = "rounded-xl border border-border bg-card backdrop-blur-md";
 const projectsBySlug = new Map(projects.map((project) => [project.slug, project]));
 
 // Grid placement. Desktop uses 6 columns: a featured group takes 4, the tile
-// right after it takes the remaining 2, and every other tile takes half a row.
-// Tablet uses 2 columns: a featured group takes the full row, and when the
-// rest is an odd number, the last tile takes a full row too so none sits alone.
+// right after it takes the remaining 2, and the other tiles go two to a row.
+// When those leave an odd one over, the last three share a row (or a single
+// tile takes the full row) so none sits alone. Tablet uses 2 columns: a
+// featured group takes the full row, and when the rest is an odd number, the
+// last tile takes a full row too.
 function spanFor(groups: SkillGroup[], index: number) {
   const group = groups[index];
   if (group.featured) return "md:col-span-2 lg:col-span-4";
@@ -23,9 +25,24 @@ function spanFor(groups: SkillGroup[], index: number) {
   const rest = groups.filter((g) => !g.featured).length;
   const lonely = index === groups.length - 1 && rest % 2 === 1;
   const tablet = lonely ? "md:col-span-2" : "";
-  const desktop = groups[index - 1]?.featured
-    ? "lg:col-span-2"
-    : "lg:col-span-3";
+
+  // Tiles laid out in pairs: everything except featured groups and the tile
+  // that fills the row next to one.
+  const paired = groups.filter(
+    (g, i) => !g.featured && !groups[i - 1]?.featured,
+  );
+  const position = paired.indexOf(group);
+  const odd = paired.length % 2 === 1;
+  const desktop =
+    position === -1
+      ? "lg:col-span-2"
+      : !odd
+        ? "lg:col-span-3"
+        : paired.length === 1
+          ? "lg:col-span-6"
+          : position >= paired.length - 3
+            ? "lg:col-span-2"
+            : "lg:col-span-3";
   return `${tablet} ${desktop}`.trim();
 }
 
