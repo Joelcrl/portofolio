@@ -1,39 +1,40 @@
-import type { Organization, OrganizationSectionContent } from "@/lib/types";
+import type { ExperienceEntry, ExperienceSectionContent } from "@/lib/types";
 
-export const organization: Organization = {
-  name: "HIMTI BINUS University",
-  image: null, // TODO: Joel, group photo or logo, e.g. "/images/organization/himti.jpg"
+/**
+ * Experience & Organization timeline. Order here does not matter: entries are
+ * shown newest first by period. The section and its nav link hide while empty.
+ */
+export const experience: ExperienceEntry[] = [
+  {
+    type: "Organization",
+    title: "Activist, Commission 1 (Academic Event)",
+    organization: "HIMTI BINUS University",
+    period: "2025", // TODO: Joel, add the month if you want it shown, e.g. "March 2025"
+    description:
+      "Contributed to academic event committees for HIMTI, the Computer Science student association.",
+    image: null, // TODO: Joel, 16:9 photo, e.g. "/images/organization/himti-activist.jpg"
+  },
+  {
+    type: "Organization",
+    title: "Vice Manager, Commission 1",
+    organization: "HIMTI BINUS University",
+    period: "2026", // TODO: Joel, add the month if you want it shown
+    description: "Co-leading Commission 1 at HIMTI BINUS Semarang.", // TODO: Joel, confirm wording and add what you lead
+    image: null, // TODO: Joel, 16:9 photo
+  },
 
-  roles: [
-    {
-      year: "2025",
-      month: null, // TODO: Joel, add the month if you want it shown
-      title: "Activist, Commission 1 (Academic Event)",
-      description:
-        "Contributed to academic event committees for HIMTI, the Computer Science student association.",
-    },
-    {
-      year: "2026",
-      month: null,
-      title: "Vice Manager, Commission 1",
-      description:
-        "Co-leading Commission 1 at HIMTI BINUS Semarang.", // TODO: Joel, confirm wording and add what you lead
-    },
-  ],
+  // TODO: Joel, add committees, Freshmen Leader and Freshmen Partner roles.
+  // {
+  //   type: "Committee", // or "Freshmen Leader", "Freshmen Partner", "Organization"
+  //   title: "Event name, Committee role",
+  //   organization: "HIMTI BINUS University",
+  //   period: "2025",
+  //   description: "What you did, in one or two sentences.",
+  //   image: "/images/organization/event-name.jpg",
+  // },
+];
 
-  // TODO: Joel, add one entry per committee you joined.
-  committees: [
-    // {
-    //   title: "Event name, Committee role",
-    //   year: "2025",
-    //   description: "What you did, in one or two sentences.",
-    //   image: "/images/organization/event-name.jpg",
-    // },
-  ],
-};
-
-export const organizationSection: OrganizationSectionContent = {
-  title: "Organization",
-  committeesTitle: "Committee highlights",
+export const experienceSection: ExperienceSectionContent = {
+  title: "Experience & Organization",
   periodLabel: (from, to) => `${from} to ${to}`,
 };

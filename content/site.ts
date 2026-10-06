@@ -1,3 +1,4 @@
+import { experience } from "@/content/organization";
 import type {
   AboutSectionContent,
   ContactSectionContent,
@@ -22,11 +23,14 @@ export const site: SiteContent = {
     scholar: null,
   },
 
+  // Links to sections that hide while empty are left out with them.
   nav: [
     { title: "About", href: "#about" },
     { title: "Projects", href: "#projects" },
     { title: "Publications", href: "#publications" },
-    { title: "Organization", href: "#organization" },
+    ...(experience.length > 0
+      ? [{ title: "Experience & Organization", href: "#experience" }]
+      : []),
     { title: "Contact", href: "#contact" },
   ],
 

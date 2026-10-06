@@ -65,42 +65,20 @@ function useGSAP(
   }, deps);
 }
 
-const monthOrder: Record<string, number> = {
-  January: 1,
-  February: 2,
-  March: 3,
-  April: 4,
-  May: 5,
-  June: 6,
-  July: 7,
-  August: 8,
-  September: 9,
-  October: 10,
-  November: 11,
-  December: 12,
-};
-
 export type TimelineItem = {
   id: string;
-  year: string;
-  /** Full month name, or null to show the year only. */
-  month: string | null;
+  /** Shown above the title, e.g. "2025". null hides it. */
+  date: string | null;
+  /** Small label next to the date, e.g. the entry type. */
+  badge?: string;
   title: string;
-  description: string;
+  /** Line under the title, e.g. the organization. */
+  subtitle?: string;
+  description: string | null;
 };
 
-/** Oldest first. Year-only items come before dated items of the same year. */
-export function sortTimelineItems(items: TimelineItem[]) {
-  return [...items].sort((a, b) => {
-    const yearDiff = Number(a.year) - Number(b.year);
-    if (yearDiff !== 0) return yearDiff;
-    const monthA = a.month ? (monthOrder[a.month] ?? 0) : 0;
-    const monthB = b.month ? (monthOrder[b.month] ?? 0) : 0;
-    return monthA - monthB;
-  });
-}
-
 export type TimelineProps = {
+  /** Rendered in the given order, left to right. */
   items: TimelineItem[];
   title: string;
   /** Small line under the title, e.g. the organization's name. */
@@ -191,7 +169,6 @@ export default function Timeline({
   // reduced motion: then the track just scrolls horizontally on its own.
   const pinned = !reducedMotion && overflow > 0;
 
-  const sorted = sortTimelineItems(items);
   const activeStyle: CSSProperties = { backgroundColor: activeColor };
   const mutedTextStyle: CSSProperties = { color: mutedTextColor };
 
@@ -288,7 +265,7 @@ export default function Timeline({
       entries.forEach((entry, i) => tl.add(reveal(entry), 0.2 + i * 0.15));
     },
     {
-      dependencies: [reducedMotion, pinned, overflow, sorted.length],
+      dependencies: [reducedMotion, pinned, overflow, items.length],
       scope: sectionRef,
     },
   );
@@ -351,11 +328,11 @@ export default function Timeline({
             ) : null}
           </div>
 
-          {sorted.length > 0 ? (
+          {items.length > 0 ? (
             <div
               className="relative h-full shrink-0"
               style={{
-                width: `calc(${sorted.length - 1} * var(--step) + var(--item-w))`,
+                width: `calc(${items.length - 1} * var(--step) + var(--item-w))`,
               }}
             >
               {/* Main line across the middle, with a dot at each end. */}
@@ -378,11 +355,8 @@ export default function Timeline({
               </div>
 
               <ol className="absolute inset-0">
-                {sorted.map((item, index) => {
+                {items.map((item, index) => {
                   const isTop = index % 2 === 0;
-                  const date = item.month
-                    ? `${item.month} ${item.year}`
-                    : item.year;
                   return (
                     <li
                       key={item.id}
@@ -419,18 +393,39 @@ export default function Timeline({
                       />
 
                       <div className="journey-card ml-5 space-y-2 rounded-xl border border-border bg-card p-4 backdrop-blur-md">
-                        <p className="font-mono text-xs" style={mutedTextStyle}>
-                          {date}
-                        </p>
+                        {(item.badge || item.date) && (
+                          <div className="flex flex-wrap items-center gap-2">
+                            {item.badge && (
+                              <span className="rounded-full border border-accent/60 bg-accent/20 px-2.5 py-0.5 font-mono text-xs text-foreground">
+                                {item.badge}
+                              </span>
+                            )}
+                            {item.date && (
+                              <p
+                                className="font-mono text-xs"
+                                style={mutedTextStyle}
+                              >
+                                {item.date}
+                              </p>
+                            )}
+                          </div>
+                        )}
                         <h3 className="text-lg leading-snug font-semibold tracking-tight">
                           {item.title}
                         </h3>
-                        <p
-                          className="text-sm leading-relaxed"
-                          style={mutedTextStyle}
-                        >
-                          {item.description}
-                        </p>
+                        {item.subtitle && (
+                          <p className="text-sm" style={mutedTextStyle}>
+                            {item.subtitle}
+                          </p>
+                        )}
+                        {item.description && (
+                          <p
+                            className="text-sm leading-relaxed"
+                            style={mutedTextStyle}
+                          >
+                            {item.description}
+                          </p>
+                        )}
                       </div>
                     </li>
                   );

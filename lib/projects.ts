@@ -1,6 +1,6 @@
 import type { Project } from "@/lib/types";
 
-const MONTHS = [
+export const MONTHS = [
   "january",
   "february",
   "march",

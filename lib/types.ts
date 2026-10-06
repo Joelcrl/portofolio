@@ -131,33 +131,29 @@ export type ProjectDetailContent = {
   nextLabel: string;
 };
 
-export type OrganizationRole = {
-  year: string;
-  /** null when the month is unknown */
-  month: string | null;
-  title: string;
-  description: string;
-};
+export type ExperienceType =
+  | "Committee"
+  | "Freshmen Leader"
+  | "Freshmen Partner"
+  | "Organization";
 
-export type Committee = {
+export type ExperienceEntry = {
+  /** Shown as a badge on the timeline item. */
+  type: ExperienceType;
+  /** The role, e.g. "Vice Manager, Commission 1". */
   title: string;
-  year: string;
-  description: string;
+  organization: string;
+  /**
+   * "2025", "March 2025" or "March 2025 to June 2026". "Present" counts as
+   * ongoing. Entries sort newest first by their latest date; null sorts last.
+   */
+  period: string | null;
+  description: string | null;
   image: string | null;
 };
 
-export type Organization = {
-  name: string;
-  /** Group photo or logo for the timeline. null hides it. */
-  image: string | null;
-  roles: OrganizationRole[];
-  committees: Committee[];
-};
-
-export type OrganizationSectionContent = {
+export type ExperienceSectionContent = {
   title: string;
-  /** Heading above the committee cards. */
-  committeesTitle: string;
   /** Joins the first and last year, e.g. "2025 to 2026". */
   periodLabel: (from: string, to: string) => string;
 };

@@ -26,7 +26,7 @@ npm run lint
 3. Skills (grouped by area, no progress bars or percentages)
 4. Core Projects: 5 cards, plus a link to `/projects`
 5. Publications
-6. Organization
+6. Experience & Organization (`#experience`)
 7. Certifications
 8. Contact
 
@@ -43,7 +43,7 @@ app/
   projects/[slug]/page.tsx  # Project detail
 components/
   ui/                       # shadcn and registry components (button, card, badge, ...)
-  sections/                 # Hero, About, Skills, Projects, Publications, Organization, Certifications, Contact
+  sections/                 # Hero, About, Skills, Projects, Publications, Organization (Experience & Organization), Certifications, Contact
   shared/                   # Reusable pieces built from ui/ (ProjectCard, SectionHeading, Timeline, ImageSlot)
 content/                    # ALL site copy and data lives here
   site.ts                   # name, headline, bios, links, CV path
@@ -52,7 +52,7 @@ content/                    # ALL site copy and data lives here
   skills.ts
   projects.ts
   publications.ts
-  organization.ts
+  organization.ts           # Experience & Organization entries
   certifications.ts
 lib/
   types.ts                  # shared content types
@@ -75,8 +75,8 @@ Joel fills these in himself. Each must render cleanly while empty (a neutral pla
 
 - Profile photo
 - CV PDF (hide "Download CV" until the path is set)
-- Contact links: email, LinkedIn, GitHub, Google Scholar or ORCID
-- Organization committee entries: image + title + description, variable count
+- Contact links: email, LinkedIn, Instagram, GitHub, Google Scholar or ORCID
+- Experience & Organization entries: type + title + organization + period + description + image, variable count
 - Certifications: image + title + issuer + date + optional verification link, variable count
 - Publication: conference certificate image and paper link
 - Project images and missing links
@@ -122,7 +122,7 @@ These facts were verified against the repos. Do not change them without Joel con
 **Chosen registry components:**
 - Hero: `hero-01` from Shadcn Space (header, hero, brand slider), adapted per `prompts/02-hero.md`
 - Core Projects: Works Wheel, per `prompts/03-core-projects.md`
-- Organization: GSAP scroll timeline, per `prompts/04-organization.md`
+- Experience & Organization: GSAP scroll timeline, per `prompts/04-organization.md`
 - Certifications: Squeeze Carousel, per `prompts/05-certifications.md`
 - Footer: adapted from a 21st.dev footer, per `prompts/09-contact-footer.md`
 - About & Education, Skills, Publications, Contact, `/projects`, `/projects/[slug]`: custom, designed to match the components above (`prompts/06` to `prompts/11`)
