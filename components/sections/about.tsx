@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Award } from "lucide-react";
 
 import { Reveal } from "@/components/shared/reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
@@ -122,6 +123,20 @@ export default function About() {
               <p className="font-mono text-sm text-foreground">
                 {aboutSection.graduationLabel} {education.expectedGraduation}
               </p>
+              {/* Awards such as Dean's List. Hidden while the list is empty. */}
+              {education.highlights && education.highlights.length > 0 && (
+                <ul className="flex flex-wrap gap-2 pt-2">
+                  {education.highlights.map((highlight) => (
+                    <li
+                      key={highlight}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-primary/60 bg-primary/25 px-3 py-1 text-sm font-medium text-foreground"
+                    >
+                      <Award className="size-4" aria-hidden />
+                      {highlight}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div className="sm:text-right">

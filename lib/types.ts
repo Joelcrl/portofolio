@@ -198,6 +198,7 @@ export type Education = {
   supportingCourses: string[];
   /** Fields Joel wants to work in, shown as chips under the courses. */
   interests: string[];
+  highlights?: string[];
 };
 
 export type SkillGroup = {

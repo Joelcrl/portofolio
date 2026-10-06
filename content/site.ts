@@ -13,18 +13,16 @@ export const site: SiteContent = {
   name: "Joel Chriscendo",
   fullName: "Joel Chriscendo Rahardjo Liem",
 
-  // TODO: Joel, fill these in. Leave as null to hide the element.
-  profileImage: null, // e.g. "/images/profile.jpg"
-  cvPath: null, // TODO: Joel, add the PDF to public/cv/, e.g. "/cv/Joel-Chriscendo-CV.pdf"
+  profileImage: "/images/profile.jpeg",
+  cvPath: "/cv/Joel-CV.pdf",
   links: {
-    email: null, // TODO: Joel, e.g. "mailto:you@example.com"
-    linkedin: null, // TODO: Joel, LinkedIn profile URL
-    instagram: null, // TODO: Joel, Instagram profile URL
+    email: "mailto:jchriscendo@gmail.com",
+    linkedin: "https://linkedin.com/in/joel-chriscendo-527099309",
+    instagram: "https://instagram.com/joel_crl",
     github: "https://github.com/Joelcrl",
     scholar: null,
   },
 
-  // Links to sections that hide while empty are left out with them.
   nav: [
     { title: "About", href: "#about" },
     { title: "Projects", href: "#projects" },
