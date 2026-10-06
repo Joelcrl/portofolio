@@ -15,8 +15,9 @@ export const site: SiteContent = {
   profileImage: null, // e.g. "/images/profile.jpg"
   cvPath: null, // e.g. "/cv/Joel-Chriscendo-CV.pdf"
   links: {
-    email: null, // e.g. "mailto:you@example.com"
-    linkedin: null,
+    email: null, // TODO: Joel, e.g. "mailto:you@example.com"
+    linkedin: null, // TODO: Joel, LinkedIn profile URL
+    instagram: null, // TODO: Joel, Instagram profile URL
     github: "https://github.com/Joelcrl",
     scholar: null,
   },
@@ -60,6 +61,7 @@ export const socialLabels: Record<keyof SocialLinks, string> = {
   email: "Email",
   github: "GitHub",
   linkedin: "LinkedIn",
+  instagram: "Instagram",
   scholar: "Google Scholar",
 };
 

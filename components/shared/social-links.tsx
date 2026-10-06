@@ -33,6 +33,7 @@ const icons: Record<keyof SocialLinks, ReactNode> = {
   email: <Mail className={ICON} aria-hidden />,
   github: logo("github"),
   linkedin: <LinkedInIcon className={ICON} />,
+  instagram: logo("instagram"),
   scholar: logo("googlescholar"),
 };
 
@@ -42,7 +43,13 @@ const icons: Record<keyof SocialLinks, ReactNode> = {
  */
 export function getSocials(
   links: SocialLinks,
-  keys: (keyof SocialLinks)[] = ["email", "github", "linkedin", "scholar"],
+  keys: (keyof SocialLinks)[] = [
+    "email",
+    "linkedin",
+    "instagram",
+    "github",
+    "scholar",
+  ],
 ): SocialEntry[] {
   return keys.flatMap((key) => {
     const href = links[key];

@@ -9,7 +9,12 @@ import { contactSection, site } from "@/content/site";
 export default function Contact() {
   const { links, cvPath } = site;
   // Profile links only; email has its own button. Empty slots are skipped.
-  const profiles = getSocials(links, ["github", "linkedin", "scholar"]);
+  const profiles = getSocials(links, [
+    "linkedin",
+    "instagram",
+    "github",
+    "scholar",
+  ]);
 
   return (
     <section

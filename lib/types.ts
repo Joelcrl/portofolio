@@ -6,6 +6,7 @@ export type NavItem = {
 export type SocialLinks = {
   email: string | null;
   linkedin: string | null;
+  instagram: string | null;
   github: string | null;
   scholar: string | null;
 };
