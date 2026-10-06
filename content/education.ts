@@ -22,4 +22,11 @@ export const education: Education = {
     "Object-Oriented Programming",
     "Algorithm Design and Analysis",
   ],
+  interests: [
+    "Data Science",
+    "Data Engineering",
+    "Data Analyst",
+    "AI Engineer",
+    "Machine Learning",
+  ],
 };

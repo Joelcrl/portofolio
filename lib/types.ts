@@ -28,6 +28,7 @@ export type AboutSectionContent = {
   gpaLabel: string;
   relevantLabel: string;
   foundationsLabel: string;
+  interestsLabel: string;
 };
 
 export type ContactSectionContent = {
@@ -187,6 +188,8 @@ export type Education = {
   gpa: { value: string; scale: string };
   relevantCourses: string[];
   supportingCourses: string[];
+  /** Fields Joel wants to work in, shown as chips under the courses. */
+  interests: string[];
 };
 
 export type SkillGroup = {

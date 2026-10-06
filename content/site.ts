@@ -62,6 +62,7 @@ export const aboutSection: AboutSectionContent = {
   gpaLabel: "GPA",
   relevantLabel: "Relevant coursework",
   foundationsLabel: "Foundations",
+  interestsLabel: "Interests",
 };
 
 /** Visible name and accessible label for each profile link. */

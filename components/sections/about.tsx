@@ -22,7 +22,7 @@ function Chips({
 }: {
   label: string;
   items: string[];
-  tone: "accent" | "muted";
+  tone: "accent" | "primary" | "muted";
 }) {
   // Zero items: render nothing, not an empty group.
   if (items.length === 0) return null;
@@ -41,9 +41,9 @@ function Chips({
               // Text stays full foreground: accent or muted text drops below AA
               // over the brightest teal of the shader. The tint carries the tone.
               "text-foreground",
-              tone === "accent"
-                ? "border-accent/50 bg-accent/20"
-                : "border-border bg-muted",
+              tone === "accent" && "border-accent/60 bg-accent/25",
+              tone === "primary" && "border-primary/50 bg-primary/20",
+              tone === "muted" && "border-border bg-muted",
             )}
           >
             {item}
@@ -143,12 +143,17 @@ export default function About() {
             <Chips
               label={aboutSection.relevantLabel}
               items={education.relevantCourses}
-              tone="accent"
+              tone="primary"
             />
             <Chips
               label={aboutSection.foundationsLabel}
               items={education.supportingCourses}
               tone="muted"
+            />
+            <Chips
+              label={aboutSection.interestsLabel}
+              items={education.interests}
+              tone="accent"
             />
           </div>
         </div>
