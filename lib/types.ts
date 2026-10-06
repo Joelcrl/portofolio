@@ -87,6 +87,8 @@ export type Project = {
   links: ProjectLinks;
   /** Cover image, ideally 16:9. null renders a gradient placeholder. */
   coverImage: string | null;
+  /** Screenshots for the detail page. Empty hides the Gallery section. */
+  gallery: string[];
   /** null for solo projects or when team details should not be shown. */
   team: { size: number; role: string | null } | null;
   /** e.g. "September 2026" */
@@ -123,6 +125,11 @@ export type ProjectDetailContent = {
   demoLabel: string;
   repoLabel: string;
   overviewHeading: string;
+  galleryHeading: string;
+  /** Alt text for a gallery image, numbered from 1. */
+  galleryAlt: (title: string, index: number) => string;
+  /** Accessible name for the thumbnail button that opens an image. */
+  galleryOpenLabel: (alt: string) => string;
   stackHeading: string;
   teamHeading: string;
   teamSize: (size: number) => string;

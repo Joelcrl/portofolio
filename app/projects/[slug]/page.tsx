@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 import { ProjectCover } from "@/components/shared/project-cover";
+import { ProjectGallery } from "@/components/shared/project-gallery";
 import SiteHeader from "@/components/shared/site-header";
 import { Button } from "@/components/ui/button";
 import { projectDetail, projects } from "@/content/projects";
@@ -37,7 +38,8 @@ export async function generateMetadata({
 }
 
 const CARD = "rounded-xl border border-border bg-card backdrop-blur-md";
-// Reading width. The cover and the metrics strip use the full page width.
+// Reading width. The cover, the metrics strip and the gallery use the full
+// page width.
 const TEXT = "mx-auto w-full max-w-[760px]";
 const H2 = "text-2xl font-semibold tracking-tight";
 const CHIP =
@@ -200,6 +202,24 @@ export default async function ProjectPage({
               </div>
             ))}
           </dl>
+        )}
+
+        {project.gallery.length > 0 && (
+          <section
+            aria-labelledby="gallery-heading"
+            className={cn(CARD, "space-y-4 p-6 md:p-8")}
+          >
+            <h2 id="gallery-heading" className={H2}>
+              {d.galleryHeading}
+            </h2>
+            <ProjectGallery
+              images={project.gallery.map((src, i) => {
+                const alt = d.galleryAlt(project.title, i + 1);
+                return { src, alt, openLabel: d.galleryOpenLabel(alt) };
+              })}
+              title={project.title}
+            />
+          </section>
         )}
 
         <Section heading={d.overviewHeading}>

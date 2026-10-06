@@ -33,6 +33,7 @@ export const projects: Project[] = [
       paper: null,
     },
     coverImage: null, // repo has docs/dashboard_screenshot.png
+    gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null,
     date: "September 2026",
     core: true,
@@ -56,6 +57,7 @@ export const projects: Project[] = [
       paper: null,
     },
     coverImage: null, // repo has docs/images/ screenshots and an architecture diagram
+    gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null,
     date: "September 2026",
     core: true,
@@ -78,6 +80,7 @@ export const projects: Project[] = [
       paper: null,
     },
     coverImage: null,
+    gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: { size: 3, role: null }, // TODO: Joel, describe your role
     date: "June 2026",
     core: true,
@@ -98,6 +101,7 @@ export const projects: Project[] = [
       paper: null,
     },
     coverImage: null,
+    gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null,
     date: "December 2025",
     core: true,
@@ -117,6 +121,7 @@ export const projects: Project[] = [
       paper: null,
     },
     coverImage: null,
+    gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null, // per Joel: describe stack and how it works only
     date: "June 2026",
     core: true,
@@ -148,6 +153,9 @@ export const projectDetail: ProjectDetailContent = {
   demoLabel: "Live demo",
   repoLabel: "Source code",
   overviewHeading: "Overview",
+  galleryHeading: "Gallery",
+  galleryAlt: (title, index) => `${title} screenshot ${index}`,
+  galleryOpenLabel: (alt) => `Open ${alt}`,
   stackHeading: "Tech stack",
   teamHeading: "Team",
   teamSize: (size) => `Team of ${size}`,
