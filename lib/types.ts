@@ -16,7 +16,8 @@ export type HeroContent = {
   headline: string;
   description: string;
   primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string | null };
+  /** Download CV button. Its href is site.cvPath; hidden while that is null. */
+  secondaryCta: { label: string };
   languagesLabel: string;
   toolsLabel: string;
 };

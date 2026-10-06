@@ -15,7 +15,7 @@ export const site: SiteContent = {
 
   // TODO: Joel, fill these in. Leave as null to hide the element.
   profileImage: null, // e.g. "/images/profile.jpg"
-  cvPath: null, // e.g. "/cv/Joel-Chriscendo-CV.pdf"
+  cvPath: null, // TODO: Joel, add the PDF to public/cv/, e.g. "/cv/Joel-Chriscendo-CV.pdf"
   links: {
     email: null, // TODO: Joel, e.g. "mailto:you@example.com"
     linkedin: null, // TODO: Joel, LinkedIn profile URL
@@ -45,8 +45,8 @@ export const site: SiteContent = {
     description:
       "Computer Science student at BINUS University specializing in Data Science. I build end-to-end machine learning systems, from data collection and modeling to deployed dashboards, with a growing focus on data engineering.",
     primaryCta: { label: "View Projects", href: "#projects" },
-    // Hidden automatically while site.cvPath is null.
-    secondaryCta: { label: "Download CV", href: null },
+    // Links to site.cvPath, hidden automatically while it is null.
+    secondaryCta: { label: "Download CV" },
     languagesLabel: "Languages",
     toolsLabel: "Libraries & Tools",
   },
