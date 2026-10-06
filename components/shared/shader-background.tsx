@@ -310,16 +310,15 @@ const U_SPACE = [0.0, 0.0, 0.0, 0.0]; // pointer unused, cursor is off
 const U_CURSOR = [0.0, 2.0, 0.65, 0.46]; // presence 0 = cursor off
 const MAX_DPR = 2;
 
-function compile(gl: WebGLRenderingContext, type: number, source: string) {
+function createShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  source: string,
+) {
   const shader = gl.createShader(type);
   if (!shader) return null;
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
-  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-    console.error("[ShaderBackground]", gl.getShaderInfoLog(shader));
-    gl.deleteShader(shader);
-    return null;
-  }
   return shader;
 }
 
@@ -345,117 +344,148 @@ export default function ShaderBackground({
     // No WebGL: the CSS background color on the canvas stays visible.
     if (!gl) return;
 
-    const vs = compile(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
-    const fs = compile(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
-    if (!vs || !fs) return;
-
+    const vs = createShader(gl, gl.VERTEX_SHADER, VERTEX_SHADER);
+    const fs = createShader(gl, gl.FRAGMENT_SHADER, FRAGMENT_SHADER);
     const program = gl.createProgram();
-    if (!program) return;
+    if (!vs || !fs || !program) return;
     gl.attachShader(program, vs);
     gl.attachShader(program, fs);
     gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-      console.error("[ShaderBackground]", gl.getProgramInfoLog(program));
-      return;
-    }
-    gl.useProgram(program);
 
-    // Fullscreen triangle.
-    const buffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW,
-    );
-    const aPosition = gl.getAttribLocation(program, "a_position");
-    gl.enableVertexAttribArray(aPosition);
-    gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
+    // Asking for COMPILE_STATUS or LINK_STATUS right away blocks the main
+    // thread until the GPU finishes compiling, which was most of the page's
+    // blocking time on load. With KHR_parallel_shader_compile we poll
+    // COMPLETION_STATUS_KHR once per frame instead and start when it is done.
+    // The canvas shows --background in the meantime.
+    const parallel = gl.getExtension("KHR_parallel_shader_compile");
 
-    // Static uniforms.
-    const colors = new Float32Array(8 * 3);
-    COLORS.forEach((c, i) => colors.set(c, i * 3));
-    gl.uniform3fv(gl.getUniformLocation(program, "u_colors"), colors);
-    gl.uniform4fv(gl.getUniformLocation(program, "u_shape"), U_SHAPE);
-    gl.uniform4fv(gl.getUniformLocation(program, "u_surface"), U_SURFACE);
-    gl.uniform4fv(gl.getUniformLocation(program, "u_finish"), U_FINISH);
-    gl.uniform4fv(gl.getUniformLocation(program, "u_transform"), U_TRANSFORM);
-    gl.uniform4fv(gl.getUniformLocation(program, "u_space"), U_SPACE);
-    gl.uniform4fv(gl.getUniformLocation(program, "u_cursor"), U_CURSOR);
-    const uScene = gl.getUniformLocation(program, "u_scene");
-
-    const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
-      const width = Math.max(1, Math.round(canvas.clientWidth * dpr));
-      const height = Math.max(1, Math.round(canvas.clientHeight * dpr));
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-        gl.viewport(0, 0, width, height);
-      }
-    };
-
-    // Elapsed time only advances while the tab is visible, so the animation
-    // resumes where it paused instead of jumping ahead.
-    let elapsed = 0;
-    let last = performance.now();
     let rafId = 0;
+    let stop: (() => void) | undefined;
 
-    const render = (now: number) => {
-      elapsed += (now - last) / 1000;
-      last = now;
-      resize();
-      gl.uniform4f(
-        uScene,
-        canvas.width,
-        canvas.height,
-        elapsed * TIME_SCALE,
-        COLOR_COUNT,
+    const setup = () => {
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+        console.error(
+          "[ShaderBackground]",
+          gl.getShaderInfoLog(vs),
+          gl.getShaderInfoLog(fs),
+          gl.getProgramInfoLog(program),
+        );
+        return;
+      }
+      gl.useProgram(program);
+
+      // Fullscreen triangle.
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array([-1, -1, 3, -1, -1, 3]),
+        gl.STATIC_DRAW,
       );
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
-    };
+      const aPosition = gl.getAttribLocation(program, "a_position");
+      gl.enableVertexAttribArray(aPosition);
+      gl.vertexAttribPointer(aPosition, 2, gl.FLOAT, false, 0, 0);
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
+      // Static uniforms.
+      const colors = new Float32Array(8 * 3);
+      COLORS.forEach((c, i) => colors.set(c, i * 3));
+      gl.uniform3fv(gl.getUniformLocation(program, "u_colors"), colors);
+      gl.uniform4fv(gl.getUniformLocation(program, "u_shape"), U_SHAPE);
+      gl.uniform4fv(gl.getUniformLocation(program, "u_surface"), U_SURFACE);
+      gl.uniform4fv(gl.getUniformLocation(program, "u_finish"), U_FINISH);
+      gl.uniform4fv(gl.getUniformLocation(program, "u_transform"), U_TRANSFORM);
+      gl.uniform4fv(gl.getUniformLocation(program, "u_space"), U_SPACE);
+      gl.uniform4fv(gl.getUniformLocation(program, "u_cursor"), U_CURSOR);
+      const uScene = gl.getUniformLocation(program, "u_scene");
 
-    const loop = (now: number) => {
-      render(now);
-      rafId = requestAnimationFrame(loop);
-    };
+      const resize = () => {
+        const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
+        const width = Math.max(1, Math.round(canvas.clientWidth * dpr));
+        const height = Math.max(1, Math.round(canvas.clientHeight * dpr));
+        if (canvas.width !== width || canvas.height !== height) {
+          canvas.width = width;
+          canvas.height = height;
+          gl.viewport(0, 0, width, height);
+        }
+      };
 
-    const start = () => {
-      cancelAnimationFrame(rafId);
-      last = performance.now();
-      if (reducedMotion) {
-        render(last); // one static frame
-      } else {
+      // Elapsed time only advances while the tab is visible, so the animation
+      // resumes where it paused instead of jumping ahead.
+      let elapsed = 0;
+      let last = performance.now();
+
+      const render = (now: number) => {
+        elapsed += (now - last) / 1000;
+        last = now;
+        resize();
+        gl.uniform4f(
+          uScene,
+          canvas.width,
+          canvas.height,
+          elapsed * TIME_SCALE,
+          COLOR_COUNT,
+        );
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      };
+
+      const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      const loop = (now: number) => {
+        render(now);
         rafId = requestAnimationFrame(loop);
-      }
-    };
+      };
 
-    const onVisibilityChange = () => {
-      if (document.hidden) {
+      const start = () => {
         cancelAnimationFrame(rafId);
-      } else {
-        start();
-      }
+        last = performance.now();
+        if (reducedMotion) {
+          render(last); // one static frame
+        } else {
+          rafId = requestAnimationFrame(loop);
+        }
+      };
+
+      const onVisibilityChange = () => {
+        if (document.hidden) {
+          cancelAnimationFrame(rafId);
+        } else {
+          start();
+        }
+      };
+
+      // Redraw the static frame on resize when motion is reduced.
+      const observer = new ResizeObserver(() => {
+        if (reducedMotion) render(performance.now());
+      });
+      observer.observe(canvas);
+
+      document.addEventListener("visibilitychange", onVisibilityChange);
+      start();
+
+      stop = () => {
+        observer.disconnect();
+        document.removeEventListener("visibilitychange", onVisibilityChange);
+        gl.deleteBuffer(buffer);
+      };
     };
 
-    // Redraw the static frame on resize when motion is reduced.
-    const observer = new ResizeObserver(() => {
-      if (reducedMotion) render(performance.now());
-    });
-    observer.observe(canvas);
-
-    document.addEventListener("visibilitychange", onVisibilityChange);
-    start();
+    const waitForCompile = () => {
+      if (
+        parallel &&
+        !gl.getProgramParameter(program, parallel.COMPLETION_STATUS_KHR)
+      ) {
+        rafId = requestAnimationFrame(waitForCompile);
+        return;
+      }
+      setup();
+    };
+    waitForCompile();
 
     return () => {
       cancelAnimationFrame(rafId);
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", onVisibilityChange);
-      gl.deleteBuffer(buffer);
+      stop?.();
       gl.deleteProgram(program);
       gl.deleteShader(vs);
       gl.deleteShader(fs);

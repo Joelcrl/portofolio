@@ -120,6 +120,45 @@
   }
 }
 
+/* Hero entrance (components/ui/hero-01-utils/hero.tsx). Pure CSS so it runs
+   from the first paint, without waiting for hydration. Reduced motion keeps
+   the fade but drops the slide. */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+@keyframes hero-enter-fade {
+  from {
+    opacity: 0;
+  }
+}
+/* Slide only, for the headline: Chrome skips elements that start at
+   opacity 0 as LCP candidates, so the headline stays opaque. */
+@keyframes hero-enter-slide {
+  from {
+    transform: translateY(16px);
+  }
+}
+/* Layered so [animation-delay:...] utilities can stagger the items. */
+@layer components {
+  .hero-enter {
+    animation: hero-enter 400ms ease-out both;
+  }
+  .hero-enter-slide {
+    animation: hero-enter-slide 400ms ease-out both;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-enter {
+      animation-name: hero-enter-fade;
+    }
+    .hero-enter-slide {
+      animation: none;
+    }
+  }
+}
+
 /* Marquee (components/ui/marquee.tsx) */
 @keyframes marquee {
   from {

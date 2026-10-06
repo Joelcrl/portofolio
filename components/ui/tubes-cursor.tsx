@@ -45,8 +45,16 @@ export default function TubesCursor({ className }: TubesCursorProps) {
 
     let app: TubesCursorApp | null = null;
     let cancelled = false;
+    let timer = 0;
 
-    const timer = window.setTimeout(() => {
+    // Load on the first mouse move, not on page load, so the three.js chunk
+    // never competes with the first paint and hydration.
+    const start = () => {
+      timer = window.setTimeout(init, INIT_DELAY_MS);
+    };
+    window.addEventListener("pointermove", start, { once: true, passive: true });
+
+    const init = () => {
       loadTubes()
         .then((createTubes) => {
           const canvas = canvasRef.current;
@@ -67,10 +75,11 @@ export default function TubesCursor({ className }: TubesCursorProps) {
           app.three.resize();
         })
         .catch((error) => console.error("[TubesCursor]", error));
-    }, INIT_DELAY_MS);
+    };
 
     return () => {
       cancelled = true;
+      window.removeEventListener("pointermove", start);
       window.clearTimeout(timer);
       app?.dispose();
     };
