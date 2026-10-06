@@ -516,7 +516,8 @@ export function WorksWheel({
               type="button"
               onClick={() => to(i + 1)}
               className={cn(
-                "focus-visible:outline-ring hover:text-foreground cursor-pointer rounded-sm transition-colors outline-none focus-visible:outline-2",
+                // min-h-6: 24px tall click target (WCAG 2.5.8).
+                "focus-visible:outline-ring hover:text-foreground inline-flex min-h-6 cursor-pointer items-center rounded-sm transition-colors outline-none focus-visible:outline-2",
                 i === active && "text-foreground font-medium",
               )}
             >

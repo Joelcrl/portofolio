@@ -41,8 +41,10 @@ export default function Projects() {
       </h2>
 
       {/* Desktop: the stage is laid out by CSS from the first paint; the wheel
-          mounts into it once the media query is confirmed on the client. */}
-      <div className="hidden h-[calc(100svh-6rem)] min-h-[36rem] wheel:block">
+          mounts into it once the media query is confirmed on the client.
+          isolate keeps the cards' z-index (up to 100) inside the stage, so
+          the link below always sits above them. */}
+      <div className="isolate hidden h-[calc(100svh-6rem)] min-h-[36rem] wheel:block">
         {showWheel && (
           <WorksWheel items={wheelItems} label={title} action={action} />
         )}
@@ -57,7 +59,7 @@ export default function Projects() {
         ))}
       </ul>
 
-      <div className="mt-10 flex justify-center px-4 wheel:mt-6">
+      <div className="relative mt-10 flex justify-center px-4 wheel:mt-6">
         <Button
           asChild
           variant="outline"
