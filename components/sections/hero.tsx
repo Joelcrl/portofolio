@@ -3,6 +3,7 @@ import HeroSection from "@/components/ui/hero-01-utils/hero";
 import BrandSlider, {
   type BrandList,
 } from "@/components/ui/hero-01-utils/brand-slider";
+import TubesCursor from "@/components/ui/tubes-cursor";
 import { site } from "@/content/site";
 import { languages, tools, logoUrl } from "@/content/tech-stack";
 import type { TechLogo } from "@/lib/types";
@@ -21,6 +22,9 @@ export default function Hero() {
 
   return (
     <div id="home" className="relative">
+      {/* Behind the Hero content, screen-blended so it adds light to the
+          shader instead of covering it. */}
+      <TubesCursor className="pointer-events-none absolute inset-0 -z-10 mix-blend-screen" />
       <SiteHeader />
       <div>
         <HeroSection

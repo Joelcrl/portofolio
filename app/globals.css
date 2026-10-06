@@ -91,6 +91,14 @@
   --sidebar-accent-foreground: #f5f3ff;
   --sidebar-border: rgb(255 255 255 / 0.1);
   --sidebar-ring: #33aeb9;
+  /* Hero tubes cursor (components/ui/tubes-cursor.tsx): shader colors only. */
+  --tubes-1: var(--primary);
+  --tubes-2: var(--accent);
+  --tubes-3: var(--chart-4);
+  --tubes-light-1: var(--accent);
+  --tubes-light-2: var(--primary);
+  --tubes-light-3: var(--chart-4);
+  --tubes-light-4: var(--chart-3);
 }
 
 @layer base {

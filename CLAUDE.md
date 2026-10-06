@@ -117,7 +117,7 @@ These facts were verified against the repos. Do not change them without Joel con
 
 **Radius:** `--radius: 0.75rem`.
 
-**Motion:** subtle. Fade and slide in on scroll, short durations (200 to 400ms). The shader and the two Hero logo sliders are the only continuous animations. Respect `prefers-reduced-motion` everywhere.
+**Motion:** subtle. Fade and slide in on scroll, short durations (200 to 400ms). The shader, the two Hero logo sliders and the Hero tubes cursor (`components/ui/tubes-cursor.tsx`, mouse users only) are the only continuous animations. Respect `prefers-reduced-motion` everywhere.
 
 **Chosen registry components:**
 - Hero: `hero-01` from Shadcn Space (header, hero, brand slider), adapted per `prompts/02-hero.md`
