@@ -1,6 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 
 import { CertificateDialog } from "@/components/shared/certificate-dialog";
+import { ImageSlot } from "@/components/shared/image-slot";
 import { Reveal } from "@/components/shared/reveal";
 import { SectionHeading } from "@/components/shared/section-heading";
 import { Button } from "@/components/ui/button";
@@ -34,9 +35,10 @@ function Authors({ authors }: { authors: string[] }) {
   );
 }
 
-function PublicationCard({ pub }: { pub: Publication }) {
+function PublicationCard({ pub, index }: { pub: Publication; index: number }) {
   const {
     readPaperLabel,
+    coverAlt,
     viewCertificateLabel,
     certificateTitle,
     certificateAlt,
@@ -53,6 +55,14 @@ function PublicationCard({ pub }: { pub: Publication }) {
       )}
     >
       <div className="flex min-w-0 flex-col gap-5">
+        <ImageSlot
+          src={pub.coverImage}
+          alt={coverAlt(pub.title)}
+          sizes="(min-width: 768px) 42rem, 100vw"
+          variant={index}
+          className="max-w-xl"
+        />
+
         <div className="flex flex-wrap items-center gap-3">
           <p className="font-mono text-sm text-foreground">{venueLine(pub)}</p>
           {pub.status && (
@@ -155,7 +165,7 @@ export default function Publications() {
       <div className="space-y-6 lg:space-y-8">
         {publications.map((pub, i) => (
           <Reveal key={pub.title} delay={i * 0.08}>
-            <PublicationCard pub={pub} />
+            <PublicationCard pub={pub} index={i} />
           </Reveal>
         ))}
       </div>

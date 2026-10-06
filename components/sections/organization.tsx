@@ -1,3 +1,4 @@
+import { ImageSlot } from "@/components/shared/image-slot";
 import Timeline, { type TimelineItem } from "@/components/ui/timeline";
 import { experience, experienceSection } from "@/content/organization";
 import {
@@ -13,6 +14,14 @@ const items: TimelineItem[] = sortExperienceNewestFirst(experience).map(
     title: entry.title,
     subtitle: entry.organization,
     description: entry.description,
+    media: (
+      <ImageSlot
+        src={entry.image}
+        alt={experienceSection.imageAlt(entry.title, entry.organization)}
+        sizes="(min-width: 768px) 20rem, 72vw"
+        variant={i}
+      />
+    ),
   }),
 );
 

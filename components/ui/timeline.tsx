@@ -6,6 +6,7 @@
 
 import {
   type CSSProperties,
+  type ReactNode,
   useLayoutEffect,
   useRef,
   useState,
@@ -75,6 +76,8 @@ export type TimelineItem = {
   /** Line under the title, e.g. the organization. */
   subtitle?: string;
   description: string | null;
+  /** Shown above the date and title, e.g. an ImageSlot. */
+  media?: ReactNode;
 };
 
 export type TimelineProps = {
@@ -183,11 +186,10 @@ export default function Timeline({
       const line = q(".journey-line");
       const entries = q(".journey-item");
 
-      // Builds one entry's reveal: connector grows out of the main line, the
-      // dot pops, the card slides in from the far side.
-      const reveal = (entry: Element) => {
-        const isTop = entry.getAttribute("data-row") === "top";
-        return gsap
+      // Builds one entry's reveal: connector grows down from the main line,
+      // the dot pops, the card slides up into place.
+      const reveal = (entry: Element) =>
+        gsap
           .timeline()
           .from(entry.querySelector(".journey-connector"), {
             scaleY: 0,
@@ -203,13 +205,12 @@ export default function Timeline({
             entry.querySelector(".journey-card"),
             {
               opacity: 0,
-              y: isTop ? -24 : 24,
+              y: 24,
               duration: 0.6,
               ease: "power2.out",
             },
             "<0.2",
           );
-      };
 
       if (pinned) {
         // Pin for exactly `overflow` px of scroll, so the track moves sideways
@@ -270,11 +271,10 @@ export default function Timeline({
     },
   );
 
-  // Item width and the step between neighbours. Neighbours alternate rows, so
-  // items in the same row sit two steps apart and never overlap.
+  // Card width and the gap between neighbouring cards.
   const trackVars = {
     "--item-w": "min(22rem, 78vw)",
-    "--step": "calc(var(--item-w) * 0.62)",
+    "--gap": "1.5rem",
     color: textColor,
   } as CSSProperties;
 
@@ -291,11 +291,11 @@ export default function Timeline({
       >
         <div
           ref={trackRef}
-          className="mx-auto flex h-[min(72svh,38rem)] min-h-[30rem] w-max items-stretch gap-[5vw] px-[5vw]"
+          className="mx-auto flex min-h-[min(72svh,38rem)] w-max items-stretch gap-[5vw] px-[5vw]"
           style={trackVars}
         >
           {imageUrl ? (
-            <div className="relative h-full w-[min(26rem,85vw)] shrink-0 overflow-hidden rounded-xl border border-border">
+            <div className="relative w-[min(26rem,85vw)] shrink-0 overflow-hidden rounded-xl border border-border">
               <Image
                 src={imageUrl}
                 alt={imageAlt}
@@ -329,16 +329,13 @@ export default function Timeline({
           </div>
 
           {items.length > 0 ? (
-            <div
-              className="relative h-full shrink-0"
-              style={{
-                width: `calc(${items.length - 1} * var(--step) + var(--item-w))`,
-              }}
-            >
-              {/* Main line across the middle, with a dot at each end. */}
+            // One row of cards hanging below the line, so each card has room
+            // for a photo above its title.
+            <div className="relative w-max shrink-0 self-center">
+              {/* Main line along the top, with a dot at each end. */}
               <div
                 aria-hidden
-                className="absolute top-1/2 left-0 flex w-full -translate-y-1/2 items-center"
+                className="absolute top-0 left-0 flex w-full -translate-y-1/2 items-center"
               >
                 <span
                   className="size-2 shrink-0 rounded-full"
@@ -354,82 +351,63 @@ export default function Timeline({
                 />
               </div>
 
-              <ol className="absolute inset-0">
-                {items.map((item, index) => {
-                  const isTop = index % 2 === 0;
-                  return (
-                    <li
-                      key={item.id}
-                      data-row={isTop ? "top" : "bottom"}
-                      className={cn(
-                        "journey-item absolute flex h-1/2 flex-col",
-                        isTop ? "top-0 justify-start" : "top-1/2 justify-end",
-                      )}
-                      style={{
-                        left: `calc(${index} * var(--step))`,
-                        width: "var(--item-w)",
-                      }}
-                    >
-                      {/* Connector from the main line out to the card. */}
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "journey-connector absolute left-0 w-px",
-                          isTop
-                            ? "top-4 bottom-0 origin-bottom"
-                            : "top-0 bottom-4 origin-top",
-                        )}
-                        style={activeStyle}
-                      />
-                      <span
-                        aria-hidden
-                        className={cn(
-                          "journey-dot absolute left-0 size-3 -translate-x-1/2 rounded-full ring-4 ring-background/60",
-                          isTop
-                            ? "bottom-0 translate-y-1/2"
-                            : "top-0 -translate-y-1/2",
-                        )}
-                        style={activeStyle}
-                      />
+              <ol className="flex items-stretch gap-[var(--gap)]">
+                {items.map((item) => (
+                  <li
+                    key={item.id}
+                    className="journey-item relative flex shrink-0 flex-col pt-10"
+                    style={{ width: "var(--item-w)" }}
+                  >
+                    {/* Connector from the main line down to the card. */}
+                    <span
+                      aria-hidden
+                      className="journey-connector absolute top-0 left-6 h-10 w-px origin-top"
+                      style={activeStyle}
+                    />
+                    <span
+                      aria-hidden
+                      className="journey-dot absolute top-0 left-6 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full ring-4 ring-background/60"
+                      style={activeStyle}
+                    />
 
-                      <div className="journey-card ml-5 space-y-2 rounded-xl border border-border bg-card p-4 backdrop-blur-md">
-                        {(item.badge || item.date) && (
-                          <div className="flex flex-wrap items-center gap-2">
-                            {item.badge && (
-                              <span className="rounded-full border border-accent/60 bg-accent/20 px-2.5 py-0.5 font-mono text-xs text-foreground">
-                                {item.badge}
-                              </span>
-                            )}
-                            {item.date && (
-                              <p
-                                className="font-mono text-xs"
-                                style={mutedTextStyle}
-                              >
-                                {item.date}
-                              </p>
-                            )}
-                          </div>
-                        )}
-                        <h3 className="text-lg leading-snug font-semibold tracking-tight">
-                          {item.title}
-                        </h3>
-                        {item.subtitle && (
-                          <p className="text-sm" style={mutedTextStyle}>
-                            {item.subtitle}
-                          </p>
-                        )}
-                        {item.description && (
-                          <p
-                            className="text-sm leading-relaxed"
-                            style={mutedTextStyle}
-                          >
-                            {item.description}
-                          </p>
-                        )}
-                      </div>
-                    </li>
-                  );
-                })}
+                    <div className="journey-card flex flex-1 flex-col gap-2 rounded-xl border border-border bg-card p-4 backdrop-blur-md">
+                      {item.media ? <div className="mb-2">{item.media}</div> : null}
+                      {(item.badge || item.date) && (
+                        <div className="flex flex-wrap items-center gap-2">
+                          {item.badge && (
+                            <span className="rounded-full border border-accent/60 bg-accent/20 px-2.5 py-0.5 font-mono text-xs text-foreground">
+                              {item.badge}
+                            </span>
+                          )}
+                          {item.date && (
+                            <p
+                              className="font-mono text-xs"
+                              style={mutedTextStyle}
+                            >
+                              {item.date}
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      <h3 className="text-lg leading-snug font-semibold tracking-tight">
+                        {item.title}
+                      </h3>
+                      {item.subtitle && (
+                        <p className="text-sm" style={mutedTextStyle}>
+                          {item.subtitle}
+                        </p>
+                      )}
+                      {item.description && (
+                        <p
+                          className="text-sm leading-relaxed"
+                          style={mutedTextStyle}
+                        >
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                ))}
               </ol>
             </div>
           ) : null}

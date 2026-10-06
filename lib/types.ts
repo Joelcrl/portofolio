@@ -149,11 +149,14 @@ export type ExperienceEntry = {
    */
   period: string | null;
   description: string | null;
+  /** 16:9 photo above the title. null renders a gradient placeholder. */
   image: string | null;
 };
 
 export type ExperienceSectionContent = {
   title: string;
+  /** Alt text for an entry's photo. */
+  imageAlt: (title: string, organization: string) => string;
   /** Joins the first and last year, e.g. "2025 to 2026". */
   periodLabel: (from: string, to: string) => string;
 };
@@ -213,6 +216,8 @@ export type Publication = {
   metrics: { label: string; value: string }[];
   stack: string[];
   paperUrl: string | null;
+  /** 16:9 image above the title, e.g. the presentation. null renders a gradient placeholder. */
+  coverImage: string | null;
   certificateImage: string | null;
 };
 
@@ -220,6 +225,8 @@ export type PublicationsSectionContent = {
   eyebrow: string;
   heading: string;
   readPaperLabel: string;
+  /** Alt text for the cover image. */
+  coverAlt: (title: string) => string;
   /** Accessible name for the certificate thumbnail button. */
   viewCertificateLabel: (title: string) => string;
   /** Visible title of the certificate dialog. */

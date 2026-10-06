@@ -1,15 +1,7 @@
 import Image from "next/image";
 
+import { PLACEHOLDERS } from "@/components/shared/image-slot";
 import { cn } from "@/lib/utils";
-
-// Placeholder gradients built from the palette, picked by index so
-// neighbouring cards don't look identical.
-const PLACEHOLDERS = [
-  "bg-linear-135 from-primary via-background to-accent",
-  "bg-linear-45 from-accent via-background to-primary",
-  "bg-linear-160 from-background via-primary to-accent",
-  "bg-linear-20 from-primary via-accent/60 to-background",
-];
 
 type ProjectCoverProps = {
   title: string;

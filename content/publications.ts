@@ -13,6 +13,7 @@ export const publications: Publication[] = [
     metrics: [{ label: "F1-score", value: "0.8638" }],
     stack: ["Python", "scikit-learn", "XGBoost", "Optuna"],
     paperUrl: null, // TODO: Joel, link to the paper
+    coverImage: null, // TODO: Joel, 16:9 image, e.g. "/images/publications/ictim-2026.jpg"
     certificateImage: null, // TODO: Joel, e.g. "/images/publications/ictim-2026-certificate.jpg"
   },
 ];
@@ -21,6 +22,7 @@ export const publicationsSection: PublicationsSectionContent = {
   eyebrow: "Research",
   heading: "Publications",
   readPaperLabel: "Read paper",
+  coverAlt: (title) => `Cover image for ${title}`,
   viewCertificateLabel: (title) => `View conference certificate for ${title}`,
   certificateTitle: "Conference certificate",
   certificateAlt: (title) => `Conference certificate for ${title}`,

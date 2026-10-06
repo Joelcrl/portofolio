@@ -36,5 +36,6 @@ export const experience: ExperienceEntry[] = [
 
 export const experienceSection: ExperienceSectionContent = {
   title: "Experience & Organization",
+  imageAlt: (title, organization) => `${title}, ${organization}`,
   periodLabel: (from, to) => `${from} to ${to}`,
 };
