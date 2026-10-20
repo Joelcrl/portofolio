@@ -20,6 +20,11 @@ type ImageSlotProps = {
   sizes: string;
   /** Picks the placeholder gradient. */
   variant?: number;
+  /**
+   * "cover" crops the image to fill the slot. "contain" shows it whole over a
+   * blurred copy of itself, for portrait photos and screenshots.
+   */
+  fit?: "cover" | "contain";
   className?: string;
 };
 
@@ -29,6 +34,7 @@ export function ImageSlot({
   alt,
   sizes,
   variant = 0,
+  fit = "cover",
   className,
 }: ImageSlotProps) {
   return (
@@ -41,6 +47,18 @@ export function ImageSlot({
         className,
       )}
     >
+      {src && fit === "contain" && (
+        // Decorative fill for the empty sides, so the slot never shows bars.
+        <Image
+          src={src}
+          alt=""
+          aria-hidden
+          fill
+          sizes={sizes}
+          draggable={false}
+          className="scale-110 object-cover opacity-60 blur-xl"
+        />
+      )}
       {src && (
         <Image
           src={src}
@@ -48,7 +66,7 @@ export function ImageSlot({
           fill
           sizes={sizes}
           draggable={false}
-          className="object-cover"
+          className={fit === "contain" ? "object-contain" : "object-cover"}
         />
       )}
     </div>

@@ -5,6 +5,7 @@ import {
   experienceYearRange,
   sortExperienceNewestFirst,
 } from "@/lib/experience";
+import { imageFit } from "@/lib/image-fit";
 
 const items: TimelineItem[] = sortExperienceNewestFirst(experience).map(
   (entry, i) => ({
@@ -20,6 +21,7 @@ const items: TimelineItem[] = sortExperienceNewestFirst(experience).map(
         alt={experienceSection.imageAlt(entry.title, entry.organization)}
         sizes="(min-width: 768px) 20rem, 72vw"
         variant={i}
+        fit={imageFit(entry.image)}
       />
     ),
   }),
