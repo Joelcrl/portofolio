@@ -9,9 +9,6 @@ import type {
  * All projects. `core: true` projects appear on Home, in this order.
  * Facts here were checked against the GitHub repos. See CLAUDE.md
  * "Content Accuracy" before changing any of them.
- *
- * TODO: Joel, add cover images (16:9) to public/images/projects/<slug>/
- * and set coverImage, e.g. "/images/projects/churn-prediction/cover.png".
  */
 export const projects: Project[] = [
   {
@@ -32,7 +29,7 @@ export const projects: Project[] = [
       demo: "https://joel-customer-churn-prediction.streamlit.app/",
       paper: null,
     },
-    coverImage: null, // repo has docs/dashboard_screenshot.png
+    coverImage: "/images/projects/churn-prediction/cover.png",
     gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null,
     date: "September 2026",
@@ -56,7 +53,7 @@ export const projects: Project[] = [
       demo: null,
       paper: null,
     },
-    coverImage: null, // repo has docs/images/ screenshots and an architecture diagram
+    coverImage: "/images/projects/realtime-streaming-pipeline/cover.png",
     gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null,
     date: "September 2026",
@@ -79,7 +76,7 @@ export const projects: Project[] = [
       demo: "https://joel-laptop-prediction.streamlit.app/",
       paper: null,
     },
-    coverImage: null,
+    coverImage: "/images/projects/laptop-price-prediction/cover.png",
     gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: { size: 3, role: null }, // TODO: Joel, describe your role
     date: "June 2026",
@@ -100,7 +97,7 @@ export const projects: Project[] = [
       demo: null, // TODO: README demo link is still a placeholder
       paper: null,
     },
-    coverImage: null,
+    coverImage: "/images/projects/nutrivision-pro/cover.png",
     gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null,
     date: "December 2025",
@@ -120,7 +117,7 @@ export const projects: Project[] = [
       demo: null,
       paper: null,
     },
-    coverImage: null,
+    coverImage: "/images/projects/skillswap/cover.png",
     gallery: [], // TODO: Joel, screenshots, e.g. "/images/projects/<slug>/1.png"
     team: null, // per Joel: describe stack and how it works only
     date: "June 2026",

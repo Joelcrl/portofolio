@@ -29,8 +29,19 @@ export function ProjectCover({
   className,
 }: ProjectCoverProps) {
   if (image) {
+    // Covers are app screenshots in any aspect ratio, so they are shown whole
+    // and a blurred copy fills the rest of the frame instead of cropping text.
     return (
       <span className={cn("relative block overflow-hidden", className)}>
+        <Image
+          src={image}
+          alt=""
+          aria-hidden
+          fill
+          sizes={sizes}
+          draggable={false}
+          className="scale-110 object-cover opacity-60 blur-xl"
+        />
         <Image
           src={image}
           alt={decorative ? "" : title}
@@ -38,7 +49,7 @@ export function ProjectCover({
           sizes={sizes}
           priority={priority}
           draggable={false}
-          className="object-cover"
+          className="object-contain"
         />
       </span>
     );
