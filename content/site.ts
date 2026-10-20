@@ -10,6 +10,7 @@ import type {
 } from "@/lib/types";
 
 export const site: SiteContent = {
+  url: "https://joelchriscendo.my.id",
   name: "Joel Chriscendo",
   fullName: "Joel Chriscendo Rahardjo Liem",
 

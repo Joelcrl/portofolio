@@ -57,6 +57,8 @@ export type FooterContent = {
 };
 
 export type SiteContent = {
+  /** Production URL with no trailing slash. Base for metadata, sitemap and robots. */
+  url: string;
   name: string;
   fullName: string;
   profileImage: string | null;
