@@ -6,6 +6,13 @@ import type {
 // Newest first. Images are rendered from the original PDFs at 1600px wide.
 export const certifications: Certification[] = [
   {
+    title: "Dean's List 2025",
+    issuer: "BINUS University, School of Computer Science",
+    date: "December 2025",
+    image: "/images/certificates/deans-list.jpg",
+    verifyUrl: null,
+  },
+  {
     title: "Build an AI Agent",
     issuer: "IBM SkillsBuild",
     date: "September 2026",
@@ -32,13 +39,6 @@ export const certifications: Certification[] = [
     date: "March 2026",
     image: "/images/certificates/microsoft-azure-ai-fundamentals.jpg",
     verifyUrl: null, // no public verification link on the certificate
-  },
-  {
-    title: "Dean's List 2025",
-    issuer: "BINUS University, School of Computer Science",
-    date: "December 2025",
-    image: "/images/certificates/deans-list.jpg",
-    verifyUrl: null,
   },
 ];
 
